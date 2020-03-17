@@ -1,9 +1,6 @@
 package EGS;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -118,11 +115,30 @@ public class SymbolRepeat {
             System.out.println(line.toString());
     }
 
+    public void saveToFile(String outFileName) {
+
+        File outFile = new File(outFileName);
+        try (FileWriter fw = new FileWriter(outFile)) {
+
+            for (Line line : lines)
+                fw.write(line.toString() + "\n");
+
+
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage() + outFileName);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
     public static void main(String[] args) {
 
         SymbolRepeat rep = new SymbolRepeat("in.txt", "hello");
+
         rep.process();
         rep.print();
+        rep.saveToFile("out.txt");
     }
 }
 
