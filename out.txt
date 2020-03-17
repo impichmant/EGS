@@ -1,0 +1,3 @@
+Line{symbol='hello', lineNumber=1, count=3}
+Line{symbol='hello', lineNumber=2, count=3}
+Line{symbol='hello', lineNumber=3, count=5}
