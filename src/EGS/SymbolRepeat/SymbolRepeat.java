@@ -9,8 +9,8 @@ public class SymbolRepeat {
 
     class Line {
         private String symbol = "";
-        private int lineNumber;
-        private int count;
+        private int lineNumber = 0;
+        private int count = 0;
 
         @Override
         public String toString() {
@@ -25,9 +25,7 @@ public class SymbolRepeat {
         }
 
         public Line(String symbol) {
-            this.symbol = symbol;
-            lineNumber = 0;
-            count = 0;
+            this(symbol, 0, 0);
         }
 
         public Line(String symbol, int lineNumber, int count) {
@@ -64,7 +62,7 @@ public class SymbolRepeat {
     private String toFind = "";
     static String inFileName = "";
     static String outFileName = "";
-    private File file;
+    private File file = null;
     private List<SymbolRepeat.Line> lines = new ArrayList<>();
 
     public void process() {
@@ -72,17 +70,17 @@ public class SymbolRepeat {
         file = new File(inFileName);
 
         if (file.exists()) {
-            try (FileInputStream inStream = new FileInputStream(file)) {
+            try (FileReader r = new FileReader(file);) {
 
-                Scanner scanner = new Scanner(inStream);
+                BufferedReader br = new BufferedReader(r);
 
                 String tmpLine = "";
                 String tmpWords[];
                 int wordCount = 0;
                 int lineNumber = 1;
 
-                while (scanner.hasNextLine()) {
-                    tmpLine = scanner.nextLine();
+                while (br.ready()) {
+                    tmpLine = br.readLine();
 
                     tmpWords = tmpLine.split(" ");
 
@@ -95,6 +93,8 @@ public class SymbolRepeat {
                     lineNumber++;
                     wordCount = 0;
                 }
+                r.close();
+                br.close();
 
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
@@ -122,7 +122,6 @@ public class SymbolRepeat {
 
             for (Line line : lines)
                 fw.write(line.toString() + "\n");
-
 
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage() + outFileName);
