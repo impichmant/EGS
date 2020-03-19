@@ -1,4 +1,4 @@
-package EGS;
+package EGS.SymbolRepeat;
 
 import java.io.*;
 import java.util.ArrayList;
